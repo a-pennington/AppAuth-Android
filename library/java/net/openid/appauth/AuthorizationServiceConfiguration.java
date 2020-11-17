@@ -33,6 +33,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLSession;
+
 /**
  * Configuration details required to interact with an authorization service.
  */
@@ -322,6 +326,12 @@ public class AuthorizationServiceConfiguration {
         protected AuthorizationServiceConfiguration doInBackground(Void... voids) {
             InputStream is = null;
             try {
+                HttpsURLConnection.setDefaultHostnameVerifier(new HostnameVerifier() {
+                    @Override
+                    public boolean verify(String s, SSLSession sslSession) {
+                        return true;
+                    }
+                });
                 HttpURLConnection conn = mConnectionBuilder.openConnection(mUri);
                 conn.setRequestMethod("GET");
                 conn.setDoInput(true);

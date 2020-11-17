@@ -36,6 +36,8 @@ import net.openid.appauth.AuthorizationResponse;
 import net.openid.appauth.AuthorizationService;
 import net.openid.appauth.AuthorizationServiceDiscovery;
 import net.openid.appauth.ClientAuthentication;
+import net.openid.appauth.ClientSecretBasic;
+import net.openid.appauth.ClientSecretPost;
 import net.openid.appauth.TokenRequest;
 import net.openid.appauth.TokenResponse;
 import okio.Okio;
@@ -280,14 +282,7 @@ public class TokenActivity extends AppCompatActivity {
             TokenRequest request,
             AuthorizationService.TokenResponseCallback callback) {
         ClientAuthentication clientAuthentication;
-        try {
-            clientAuthentication = mStateManager.getCurrent().getClientAuthentication();
-        } catch (ClientAuthentication.UnsupportedAuthenticationMethod ex) {
-            Log.d(TAG, "Token request cannot be made, client authentication for the token "
-                            + "endpoint could not be constructed (%s)", ex);
-            displayNotAuthorized("Client authentication method is unsupported");
-            return;
-        }
+        clientAuthentication = new ClientSecretBasic("blah");
 
         mAuthService.performTokenRequest(
                 request,

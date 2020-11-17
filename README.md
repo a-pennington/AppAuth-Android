@@ -1,3 +1,28 @@
+Mark Chatterton extra notes
+the worst thing about getting this app to work was undoubtedly getting android to work with the https certificate if you are running the backend locally
+
+if you are running the backend in the cloud, then hopefully the SSL certificate is already valid and nothing needs doing.
+if you are running the backend locally with dotnet run, then you need to:
+  - get the C.A certificate from dotnet:
+    - dotnet dev-certs https -ep C:\Users\marchatt\Documents\software\iothub\sslcert.der
+  - convert from DER to PEM
+    - openssl x509 -inform der -in sslcert.der -outform pem -out sslcert.pem
+  - copy this certificate into the android project:
+    - app\res\raw\sslcert.pem
+  - rebuild & deploy to target
+if you are running the backend locally with docker, then you need to:
+  - get the C.A certificate from the docker container for the backend
+    - docker cp iothub_backend_1:/app/certificate.pfx ./
+  - convert from PKCS12 to PEM
+    - openssl pkcs12 -in certificate.pfx -nokeys -out sslcert.pem
+  - copy this certificate into the android project:
+    - app\res\raw\sslcert.pem
+  - rebuild & deploy to target
+  
+The location app\res\raw\sslcert.pem is not magic or arbitrary, it is referenced from network_security_config.xml, which is referenced from the manifest
+
+Original readme below.........
+
 ![AppAuth for Android](https://rawgit.com/openid/AppAuth-Android/master/appauth_lockup.svg)
 
 [![Download](https://api.bintray.com/packages/openid/net.openid/appauth/images/download.svg) ](https://bintray.com/openid/net.openid/appauth/_latestVersion)

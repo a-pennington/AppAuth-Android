@@ -1,11 +1,12 @@
 {
-  "client_id": "",
+  "client_id": "iothub-android",
   "redirect_uri": "net.openid.appauthdemo:/oauth2redirect",
-  "authorization_scope": "openid email profile",
-  "discovery_uri": "",
+  "authorization_scope": "openid profile IOThubAPI",
+  "discovery_uri": "https://production.iothub.online:8086/.well-known/openid-configuration",
   "authorization_endpoint_uri": "",
   "token_endpoint_uri": "",
   "registration_endpoint_uri": "",
   "user_info_endpoint_uri": "",
-  "https_required": true
+  "https_required": true,
+  "response_type": "code token id_token"
 }
